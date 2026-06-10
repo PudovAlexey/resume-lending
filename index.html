@@ -226,6 +226,44 @@
   .tags{display:flex;flex-wrap:wrap;gap:6px}
   .tag{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.18);border-radius:6px;padding:3px 8px}
 
+  /* ---------- PHONE DEMO ---------- */
+  .demo-wrap{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:8px}
+  .phone{
+    position:relative;
+    width:clamp(260px,78vw,320px);
+    aspect-ratio:320 / 660;
+    background:#0a0c12;
+    border:1px solid var(--border);
+    border-radius:46px;
+    padding:13px;
+    box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.02);
+  }
+  .phone::before{
+    content:"";position:absolute;inset:-1px;border-radius:46px;padding:1px;
+    background:var(--grad);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;opacity:.45;pointer-events:none;
+  }
+  .phone .notch{
+    position:absolute;top:13px;left:50%;transform:translateX(-50%);
+    width:122px;height:22px;background:#0a0c12;border-radius:0 0 16px 16px;z-index:3;
+  }
+  .phone .screen{
+    position:relative;width:100%;height:100%;
+    border-radius:34px;overflow:hidden;background:var(--bg-2);
+    box-shadow:inset 0 0 0 2px #05070d;
+  }
+  .phone iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+  .demo-cta{text-align:center;max-width:46ch}
+  .demo-cta p{color:var(--muted);font-size:.95rem;margin-bottom:12px}
+  .demo-open{
+    display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.92rem;
+    color:var(--a3);border:1px solid var(--border);border-radius:11px;padding:9px 16px;
+    background:rgba(255,255,255,.02);transition:.2s;
+  }
+  .demo-open:hover{border-color:var(--border-hover);background:rgba(139,92,246,.08);transform:translateY(-2px)}
+
   /* ---------- PROJECTS ---------- */
   .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
   .proj{
@@ -315,6 +353,7 @@
     <div class="nav-links" id="navlinks">
       <a href="#hero" data-i18n="nav.home">Главная</a>
       <a href="#experience" data-i18n="nav.experience">Опыт</a>
+      <a href="#demo" data-i18n="nav.demo">Проект</a>
       <a href="#projects" data-i18n="nav.projects">Пет проекты</a>
       <a href="#about" data-i18n="nav.about">Обо мне</a>
       <a href="#contact" data-i18n="nav.contact">Контакты</a>
@@ -439,10 +478,31 @@
   </div>
 </section>
 
+<!-- ===== ЖИВОЙ ПРОЕКТ (motocade.ru) ===== -->
+<section id="demo">
+  <div class="section-head reveal">
+    <div class="eyebrow" data-i18n="demo.eyebrow">03 — Живой проект</div>
+    <h2 data-i18n="demo.title">Живой <span class="grad-text">проект</span></h2>
+  </div>
+  <div class="demo-wrap reveal">
+    <div class="phone">
+      <span class="notch"></span>
+      <div class="screen">
+        <iframe src="https://motocade.ru/" title="Motocade — живое демо"
+                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+    <div class="demo-cta">
+      <p data-i18n="demo.cap">Motocade — приложение для мотосообщества. Живое демо прямо в телефоне ↑</p>
+      <a class="demo-open" href="https://motocade.ru/" target="_blank" rel="noopener" data-i18n="demo.open">Открыть motocade.ru →</a>
+    </div>
+  </div>
+</section>
+
 <!-- ===== ПЕТ ПРОЕКТЫ ===== -->
 <section id="projects">
   <div class="section-head reveal">
-    <div class="eyebrow" data-i18n="proj.eyebrow">03 — Опенсорс & эксперименты</div>
+    <div class="eyebrow" data-i18n="proj.eyebrow">04 — Опенсорс & эксперименты</div>
     <h2 data-i18n="proj.title">Пет <span class="grad-text">проекты</span></h2>
   </div>
   <div class="proj-grid">
@@ -520,7 +580,7 @@
 <!-- ===== ОБО МНЕ ===== -->
 <section id="about">
   <div class="section-head reveal">
-    <div class="eyebrow" data-i18n="about.eyebrow">04 — Кто я</div>
+    <div class="eyebrow" data-i18n="about.eyebrow">05 — Кто я</div>
     <h2 data-i18n="about.title">Обо <span class="grad-text">мне</span></h2>
   </div>
   <div class="about-grid">
@@ -547,7 +607,7 @@
 <!-- ===== КОНТАКТЫ ===== -->
 <section id="contact">
   <div class="section-head reveal">
-    <div class="eyebrow" data-i18n="contact.eyebrow">05 — Связаться</div>
+    <div class="eyebrow" data-i18n="contact.eyebrow">06 — Связаться</div>
     <h2 data-i18n="contact.title">Кон<span class="grad-text">такты</span></h2>
   </div>
   <div class="contact-grid reveal">
@@ -617,7 +677,7 @@
   const EN = {
     'brand':'<span class="dot"></span>Pudov Alexey',
     'hero.name':'Pudov <span class="grad-text">Alexey</span>',
-    'nav.home':'Home','nav.experience':'Experience','nav.projects':'Projects','nav.about':'About','nav.contact':'Contacts',
+    'nav.home':'Home','nav.experience':'Experience','nav.demo':'Live demo','nav.projects':'Projects','nav.about':'About','nav.contact':'Contacts',
     'hero.loc':'<span class="pulse"></span>Moscow, Russia · open to offers',
     'hero.role':'Senior / Lead <span class="mono">Frontend</span> Developer<br>Frontend Architect · React · TypeScript',
     'hero.pitch':'8 years of frontend in high-load enterprise systems — aviation logistics, fintech: React/TypeScript architecture, in-house virtualization engines and real-time over WebSocket.',
@@ -649,7 +709,10 @@
     'job4.li2':'Implemented report generation and export with third-party system integration.',
     'job4.li3':'Did targeted performance optimization and reduced system latency by <b>20%</b>; mentored 3+ interns.',
 
-    'proj.eyebrow':'03 — Open source & experiments','proj.title':'Pet <span class="grad-text">projects</span>',
+    'demo.eyebrow':'03 — Live project','demo.title':'Live <span class="grad-text">project</span>',
+    'demo.cap':'Motocade — an app for the motorcycle community. Live demo right in the phone ↑',
+    'demo.open':'Open motocade.ru →',
+    'proj.eyebrow':'04 — Open source & experiments','proj.title':'Pet <span class="grad-text">projects</span>',
     'proj1.desc':'A fighting game implemented as a smart contract on the Solana blockchain. Combat logic and state are fully on-chain.',
     'proj2.desc':'A DEX: a decentralized exchange on smart contracts. Token swaps and liquidity pools.',
     'proj3.desc':'A fullstack app for motorcyclists: a TypeScript/Node.js backend and a native iOS client in Swift.',
@@ -658,7 +721,7 @@
     'proj6.desc':'A merged PR into a popular open-source grid: fixed horizontal-scroll virtualization — wide tables render 40% faster.',
     'link.github':'Code on GitHub →','link.backend':'Backend →','link.frontend':'Frontend →','link.ios':'iOS →','link.fork':'Fork →','link.demo':'Demo →',
 
-    'about.eyebrow':'04 — Who I am','about.title':'About <span class="grad-text">me</span>',
+    'about.eyebrow':'05 — Who I am','about.title':'About <span class="grad-text">me</span>',
     'about.p1':'<b>8 years in frontend.</b> I lead the frontend at Sheremetyevo International Airport: the “Digital Twin” service was featured at CIPR 2024, the operational scheduling system serves 2,000+ users in a private network. Before that — Sber (“Sber Fuel”), Alar Studios, Unicon. I specialize in React / TypeScript architecture: DDD, Feature-Sliced Design, metadata-driven UI, a typed API layer and real-time over WebSocket.',
     'about.p2':'Proactive: I don’t wait for tickets — I find bottlenecks and close them. I lead a team of 4+ developers and set up code review, mentoring and quality gates; migrated JavaScript → TypeScript without pausing product work. Technically: an in-house table virtualization engine for 1,000+ columns, a 500+ marker map at 60 FPS (WebGL, 2 s → 400 ms), real-time fuel payment with 200 ms latency, a BFF on NestJS. I actively use AI-assisted development (Cursor AI, Claude).',
     'about.edu1':'Bauman Moscow State Technical University — Computer Science and Engineering',
@@ -666,7 +729,7 @@
     'about.edu3':'Frontend developer — ITGid',
     'about.cat1':'Frontend','about.cat2':'Performance & Graphics','about.cat3':'Architecture','about.cat4':'BFF / Node.js','about.cat5':'Infra & process',
 
-    'contact.eyebrow':'05 — Get in touch','contact.title':'Con<span class="grad-text">tacts</span>','contact.phone':'Phone',
+    'contact.eyebrow':'06 — Get in touch','contact.title':'Con<span class="grad-text">tacts</span>','contact.phone':'Phone',
     'footer.line1':'Pudov Alexey · Senior / Lead Frontend Developer · Moscow',
     'footer.line2':'© 2026 — handcrafted, no website builders'
   };
