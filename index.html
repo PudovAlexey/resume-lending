@@ -254,7 +254,21 @@
     border-radius:34px;overflow:hidden;background:var(--bg-2);
     box-shadow:inset 0 0 0 2px #05070d;
   }
-  .phone iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+  .phone .screen iframe{width:100%;height:100%;border:0;display:block;background:#fff;pointer-events:none}
+  .phone .screen.active iframe{pointer-events:auto}
+  /* overlay: page scrolls smoothly over the phone; click to interact */
+  .phone .tap{
+    position:absolute;inset:0;z-index:2;cursor:pointer;
+    display:flex;align-items:flex-end;justify-content:center;padding-bottom:18px;
+    background:linear-gradient(to top,rgba(5,7,13,.5),transparent 36%);
+    transition:opacity .2s;
+  }
+  .phone .screen.active .tap{display:none}
+  .phone .tap span{
+    font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#eaf6ff;
+    background:rgba(10,15,31,.82);border:1px solid var(--border-hover);border-radius:999px;
+    padding:6px 13px;backdrop-filter:blur(4px);box-shadow:0 4px 16px rgba(0,0,0,.5);
+  }
   .demo-cta{text-align:center;max-width:46ch}
   .demo-cta p{color:var(--muted);font-size:.95rem;margin-bottom:12px}
   .demo-open{
@@ -353,7 +367,7 @@
     <div class="nav-links" id="navlinks">
       <a href="#hero" data-i18n="nav.home">Главная</a>
       <a href="#experience" data-i18n="nav.experience">Опыт</a>
-      <a href="#demo" data-i18n="nav.demo">Проект</a>
+      <a href="#demo" data-i18n="nav.demo">Портфолио</a>
       <a href="#projects" data-i18n="nav.projects">Пет проекты</a>
       <a href="#about" data-i18n="nav.about">Обо мне</a>
       <a href="#contact" data-i18n="nav.contact">Контакты</a>
@@ -478,22 +492,23 @@
   </div>
 </section>
 
-<!-- ===== ЖИВОЙ ПРОЕКТ (motocade.ru) ===== -->
+<!-- ===== ПРИЛОЖЕНИЕ-ПОРТФОЛИО (motocade.ru) ===== -->
 <section id="demo">
   <div class="section-head reveal">
-    <div class="eyebrow" data-i18n="demo.eyebrow">03 — Живой проект</div>
-    <h2 data-i18n="demo.title">Живой <span class="grad-text">проект</span></h2>
+    <div class="eyebrow" data-i18n="demo.eyebrow">03 — Приложение-портфолио</div>
+    <h2 data-i18n="demo.title">Приложение-<span class="grad-text">портфолио</span></h2>
   </div>
   <div class="demo-wrap reveal">
     <div class="phone">
       <span class="notch"></span>
-      <div class="screen">
-        <iframe src="https://motocade.ru/" title="Motocade — живое демо"
+      <div class="screen" id="demoScreen">
+        <iframe src="https://motocade.ru/" title="Motocade — приложение-портфолио"
                 loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="tap" id="demoTap"><span data-i18n="demo.tap">👆 нажми, чтобы листать</span></div>
       </div>
     </div>
     <div class="demo-cta">
-      <p data-i18n="demo.cap">Motocade — приложение для мотосообщества. Живое демо прямо в телефоне ↑</p>
+      <p data-i18n="demo.cap">Motocade — моё приложение-портфолио для мотосообщества. Нажми на экран, чтобы полистать вживую ↑</p>
       <a class="demo-open" href="https://motocade.ru/" target="_blank" rel="noopener" data-i18n="demo.open">Открыть motocade.ru →</a>
     </div>
   </div>
@@ -661,6 +676,17 @@
     a.addEventListener('click',function(){document.getElementById('navlinks').classList.remove('open');});
   });
 
+  // phone demo: iframe is non-interactive so the page scrolls smoothly over it;
+  // click to interact, leave to re-lock (page scroll resumes)
+  (function(){
+    var screen=document.getElementById('demoScreen'),
+        tap=document.getElementById('demoTap'),
+        phone=screen?screen.closest('.phone'):null;
+    if(!screen||!tap||!phone) return;
+    tap.addEventListener('click',function(){screen.classList.add('active');});
+    phone.addEventListener('mouseleave',function(){screen.classList.remove('active');});
+  })();
+
   // globe fallback: if Three.js didn't init within a few seconds, show CSS planet
   setTimeout(function(){
     if(!window.__globeOK){
@@ -677,7 +703,7 @@
   const EN = {
     'brand':'<span class="dot"></span>Pudov Alexey',
     'hero.name':'Pudov <span class="grad-text">Alexey</span>',
-    'nav.home':'Home','nav.experience':'Experience','nav.demo':'Live demo','nav.projects':'Projects','nav.about':'About','nav.contact':'Contacts',
+    'nav.home':'Home','nav.experience':'Experience','nav.demo':'Portfolio','nav.projects':'Projects','nav.about':'About','nav.contact':'Contacts',
     'hero.loc':'<span class="pulse"></span>Moscow, Russia · open to offers',
     'hero.role':'Senior / Lead <span class="mono">Frontend</span> Developer<br>Frontend Architect · React · TypeScript',
     'hero.pitch':'8 years of frontend in high-load enterprise systems — aviation logistics, fintech: React/TypeScript architecture, in-house virtualization engines and real-time over WebSocket.',
@@ -709,8 +735,9 @@
     'job4.li2':'Implemented report generation and export with third-party system integration.',
     'job4.li3':'Did targeted performance optimization and reduced system latency by <b>20%</b>; mentored 3+ interns.',
 
-    'demo.eyebrow':'03 — Live project','demo.title':'Live <span class="grad-text">project</span>',
-    'demo.cap':'Motocade — an app for the motorcycle community. Live demo right in the phone ↑',
+    'demo.eyebrow':'03 — Portfolio app','demo.title':'Portfolio <span class="grad-text">app</span>',
+    'demo.cap':'Motocade — my portfolio app for the motorcycle community. Tap the screen to try it live ↑',
+    'demo.tap':'👆 tap to interact',
     'demo.open':'Open motocade.ru →',
     'proj.eyebrow':'04 — Open source & experiments','proj.title':'Pet <span class="grad-text">projects</span>',
     'proj1.desc':'A fighting game implemented as a smart contract on the Solana blockchain. Combat logic and state are fully on-chain.',
